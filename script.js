@@ -9,10 +9,15 @@ submitBook.addEventListener("click", () => {
   const title = document.querySelector("#book-title").value;
   const author = document.querySelector("#author").value;
   const pageCount = document.querySelector("#page-count").value;
-  console.log(typeof pageCount);
-  console.log();
+  const readStatus = document.querySelector("#read-status").checked;
+
+  console.log("read status");
+  console.log(readStatus);
   if (checkForm(title, author, pageCount)) {
     const aBook = new Book(title, author, pageCount);
+    if (readStatus) {
+      aBook.toggleRead();
+    }
     myLibrary.push(aBook);
     document.querySelector("#add-book-modal").close();
     displayBookList();
@@ -26,6 +31,7 @@ function checkForm(title, author, pageCount) {
   return false;
 }
 
+/* Book constructor */
 function Book(title, author, noPages) {
   if (!(this instanceof Book)) {
     throw Error("Error: Incorrect invocation");
@@ -55,17 +61,17 @@ function displayBookList() {
     card.classList.add("card");
     card.setAttribute("data-index", index);
     const titleLabel = document.createElement("p");
-    titleLabel.textContent = book.title;
+    titleLabel.textContent = "Title: " + book.title;
     const authorLabel = document.createElement("p");
-    authorLabel.textContent = book.author;
+    authorLabel.textContent = "Author: " + book.author;
     const pagesLabel = document.createElement("p");
-    pagesLabel.textContent = book.noPages;
+    pagesLabel.textContent = "Pages: " + book.noPages;
 
     const readStatus = document.createElement("p");
     readStatus.textContent = book.read;
 
     const readBtn = document.createElement("button");
-    readBtn.textContent = "Mark read";
+    readBtn.textContent = book.read ? "Mark Unread" : "Mark Read";
 
     readBtn.addEventListener("click", () => {
       let index = card.getAttribute("data-index");
