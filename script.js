@@ -19,6 +19,7 @@ submitBook.addEventListener("click", () => {
       aBook.toggleRead();
     }
     myLibrary.push(aBook);
+    clearFields();
     document.querySelector("#add-book-modal").close();
     displayBookList();
   }
@@ -26,6 +27,7 @@ submitBook.addEventListener("click", () => {
 
 const cancel = document.querySelector("#cancel");
 cancel.addEventListener("click", () => {
+  clearFields();
   document.querySelector("#add-book-modal").close();
 });
 
@@ -51,10 +53,6 @@ function Book(title, author, noPages) {
 Book.prototype.toggleRead = function () {
   this.read = !this.read;
 };
-
-for (let i = 0; i < 3; i++) {
-  myLibrary.push(new Book(i, i, 200 + i * 100));
-}
 
 function displayBookList() {
   const output = document.querySelector(".book-display");
@@ -141,4 +139,13 @@ function createHeader() {
 
   return aCard;
 }
+
+function clearFields() {
+  document.querySelector("#book-title").value = "";
+  document.querySelector("#author").value = "";
+  document.querySelector("#page-count").value = "";
+  document.querySelector("#read-status").checked = false;
+}
+
+myLibrary.push(new Book("Harry Potter", "J.K Rowling", 150));
 displayBookList();
