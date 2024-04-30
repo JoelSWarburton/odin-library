@@ -113,3 +113,8 @@ input[type="number"] {
 .card:nth-child(odd) {
   background: #ddd;
 }
+
+input:invalid {
+  border: 1px red solid;
+  background: pink;
+}
