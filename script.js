@@ -1,4 +1,4 @@
-const myLibrary = [];
+/*const myLibrary = [];
 const addBtn = document.querySelector("#add-book");
 addBtn.addEventListener("click", () => {
   document.querySelector("#add-book-modal").showModal();
@@ -39,6 +39,7 @@ function checkForm(title, author, pageCount) {
 }
 
 /* Book constructor */
+/*
 function Book(title, author, noPages) {
   if (!(this instanceof Book)) {
     throw Error("Error: Incorrect invocation");
@@ -149,3 +150,117 @@ function clearFields() {
 
 myLibrary.push(new Book("Harry Potter", "J.K Rowling", 150));
 displayBookList();
+
+function outer() {
+  let thing = 5;
+
+  return function (number = thing) {
+    thing = number;
+    console.log("Thing is " + thing);
+  };
+}
+
+const tester = outer();
+
+(function () {
+  let thingy = {
+    init: function () {
+      this.db = document.querySelector("#dumb-button");
+      this.bindEvent();
+    },
+    showAlert: function () {
+      alert("I still live");
+    },
+
+    bindEvent: function () {
+      this.db.addEventListener("click", this.showAlert.bind(this));
+    },
+  };
+
+  thingy.init();
+})();
+*/
+
+//class refactor code
+
+/*
+  Library - stores books, handles book admin: adding, removing, etc. Draw elements to the page
+
+
+  Book - stores data related to the book. 
+
+
+  UI - handles all the UI related code. communicates with the other classes.
+*/
+
+class Library {
+  #books;
+
+  //UI elements fields
+  #output;
+  #addBookButton;
+  #bookModal;
+
+  constructor() {
+    this.#books = [];
+    this.#output = document.querySelector(".book-display");
+    this.#addBookButton = document.querySelector("#add-book");
+    this.#bookModal = document.querySelector("#add-book-modal");
+    this.initListeners();
+  }
+
+  initListeners() {
+    this.#addBookButton.addEventListener("click", () => {
+      console.log("working...");
+      this.#bookModal.showModal();
+    });
+  }
+
+  //generate UI for books in list
+  displayBookList() {
+    this.#output.textContent = "Hello";
+  }
+}
+
+class Book {
+  #name;
+  #author;
+  #numPages;
+  #read;
+
+  constructor(name, author, numPages, read = false) {
+    this.#name = name;
+    this.#author = author;
+    this.#numPages = numPages;
+    this.#read = read;
+  }
+
+  get name() {
+    return this.#name;
+  }
+
+  get author() {
+    return this.#author;
+  }
+
+  get numPages() {
+    return this.#numPages;
+  }
+
+  get read() {
+    return this.#read;
+  }
+
+  toggleRead() {
+    this.#read = !this.#read;
+  }
+
+  printVals() {
+    console.log(this.name);
+    console.log(this.author);
+    console.log(this.numPages);
+    console.log(this.read);
+  }
+}
+
+let lib = new Library();
