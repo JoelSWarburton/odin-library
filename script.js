@@ -193,19 +193,24 @@ const tester = outer();
   UI - handles all the UI related code. communicates with the other classes.
 */
 
-class Library {
-  #books;
+class UI {
+  #library;
 
-  //UI elements fields
+  //ui elements
   #output;
   #addBookButton;
   #bookModal;
+  #cancelButton;
+  #submitButton;
 
   constructor() {
-    this.#books = [];
+    this.#library = new Library();
     this.#output = document.querySelector(".book-display");
     this.#addBookButton = document.querySelector("#add-book");
     this.#bookModal = document.querySelector("#add-book-modal");
+    this.#cancelButton = document.querySelector("#cancel");
+    this.#submitButton = document.querySelector("#submit-book");
+    this.displayBookList();
     this.initListeners();
   }
 
@@ -214,29 +219,82 @@ class Library {
       console.log("working...");
       this.#bookModal.showModal();
     });
+
+    this.#cancelButton.addEventListener("click", () => {
+      this.#bookModal.close();
+    });
+
+    this.#submitButton.addEventListener("click", () => this.addBook());
   }
 
-  //generate UI for books in list
+  addBook() {
+    console.log("adding...");
+    let title = document.querySelector("#book-title").value;
+    let author = document.querySelector("#author");
+    let pageCount = document.querySelector("#page-count");
+    let readStatus = document.querySelector("#read-status");
+    this.#library.addBook(title, author, pageCount, readStatus);
+
+    this.#bookModal.close();
+    this.displayBookList();
+  }
+
+  //generate UI for books in list. Pass every book to a helper function
+  //to make 'cards' to be displayed.
   displayBookList() {
-    this.#output.textContent = "Hello";
+    let books = this.#library.getBooks();
+    console.log(books);
+    books.forEach((element) => {
+      this.#output.appendChild(element.title);
+    });
+  }
+}
+
+/*
+class bookModal {
+
+  //modal fields
+  #titleInput
+  #authorInput
+  #pageInput 
+  #readStatus
+
+  constructor() {
+
+  }
+}*/
+
+class Library {
+  #books;
+
+  constructor() {
+    this.#books = [];
+  }
+
+  addBook(title, author, pageCount, readStatus) {
+    this.#books.push(new Book(title, author, pageCount, readStatus));
+  }
+
+  getBooks() {
+    return this.#books;
   }
 }
 
 class Book {
-  #name;
+  #title;
   #author;
   #numPages;
   #read;
 
-  constructor(name, author, numPages, read = false) {
-    this.#name = name;
+  constructor(title, author, numPages, read = false) {
+    this.#title = title;
     this.#author = author;
     this.#numPages = numPages;
     this.#read = read;
   }
 
-  get name() {
-    return this.#name;
+  get title() {
+    return this.#title;
   }
 
   get author() {
@@ -263,4 +321,4 @@ class Book {
   }
 }
 
-let lib = new Library();
+let ui = new UI();
