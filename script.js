@@ -230,23 +230,54 @@ class UI {
   addBook() {
     console.log("adding...");
     let title = document.querySelector("#book-title").value;
-    let author = document.querySelector("#author");
-    let pageCount = document.querySelector("#page-count");
-    let readStatus = document.querySelector("#read-status");
+    let author = document.querySelector("#author").value;
+    let pageCount = document.querySelector("#page-count").value;
+    let readStatus = document.querySelector("#read-status").checked;
     this.#library.addBook(title, author, pageCount, readStatus);
 
     this.#bookModal.close();
+
     this.displayBookList();
   }
 
   //generate UI for books in list. Pass every book to a helper function
   //to make 'cards' to be displayed.
   displayBookList() {
+    //clear list
+    this.#output.textContent = "";
     let books = this.#library.getBooks();
     console.log(books);
+    let index = 0;
     books.forEach((element) => {
-      this.#output.appendChild(element.title);
+      const bookCard = this.makeBookCard(element);
+      bookCard.setAttribute("data-index", index);
+      this.#output.appendChild(bookCard);
+      index++;
     });
+  }
+
+  makeBookCard(book) {
+    const card = document.createElement("div");
+    card.classList.add("card");
+
+    const titleLabel = document.createElement("p");
+    titleLabel.textContent = book.title;
+    const authorLabel = document.createElement("p");
+    authorLabel.textContent = book.author;
+    const pagesLabel = document.createElement("p");
+    pagesLabel.textContent = book.numPages;
+
+    const readLabel = document.createElement("p");
+    readLabel.textContent = book.read;
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete";
+    card.appendChild(titleLabel);
+    card.appendChild(authorLabel);
+    card.appendChild(pagesLabel);
+    card.appendChild(readLabel);
+
+    return card;
   }
 }
 
