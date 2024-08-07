@@ -17,7 +17,7 @@ h1 {
 }
 
 .card {
-  background-color: #bbb;
+  background-color: #ddd;
   border-radius: 10px;
   padding: 10px;
   width: 100%;
@@ -39,7 +39,14 @@ h1 {
   flex-wrap: wrap;
   justify-content: center;
   gap: 10px;
-  margin-top: 50px;
+  margin-top: 0;
+}
+
+.title-header {
+  max-width: 1400px;
+  margin: 50px auto 10px auto;
+  box-sizing: border-box;
+  background-color: #bbb;
 }
 
 dialog {
@@ -110,7 +117,7 @@ input[type="number"] {
   color: #fff;
 }
 
-.card:nth-child(odd) {
+.card:nth-child(even) {
   background: #ddd;
 }
 
